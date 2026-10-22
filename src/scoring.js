@@ -47,7 +47,8 @@ export function explain(r) {
   const who = NAMES[r.winner];
   const top = r.drivers.slice(0, 2).map((x) => x.f.short);
   const why = top.length === 2 ? `${top[0]} و${top[1]}` : top[0] || 'المجموع';
-  return `يُوصى بـ«${who}» لتفوّقه في ${why}؛ الفارق ${r.margin.toFixed(1)} نقطة، والثقة ${r.confidence}%.`;
+  // Scores and confidence are drawn right next to this sentence, so it names only the why.
+  return `«${who}» — أقوى في ${why}.`;
 }
 
 // Simulated cases used by the live demo (Demo Mode).
@@ -66,13 +67,13 @@ export const CASES = [
       'العقد يغطي القطع فقط — العمالة خارج التغطية',
       'الفريق 6 س · 4.8K$ — المتعاقد 14 س · 12.5K$',
     ],
-    reasons: ['فنيّان B1 مؤهّلان متاحان الآن', 'القطعة في المخزون المحلي', 'عمالة المتعاقد غير مغطاة'],
-    alt: 'المتعاقد — إذا لم يتوفّر الفريق خلال 4 ساعات',
+    reasons: ['فنيّان B1 متاحان', 'القطعة متوفرة محلياً', 'العقد لا يغطي العمالة'],
+    alt: 'المتعاقد — إذا تأخّر الفريق 4 ساعات',
   },
   {
     id: 'A4O-AVZ',
     tag: 'ATA 32',
-    fault: 'تسرّب هيدروليكي · جهاز الهبوط الرئيسي',
+    fault: 'تسرّب هيدروليكي · جهاز الهبوط',
     point: 'gear',
     team: { hours: 22, cost: 31000, ready: 30, part: 30, cover: 30 },
     mro: { hours: 9, cost: 18000, ready: 100, part: 100, cover: 100 },
@@ -83,7 +84,7 @@ export const CASES = [
       'تغطية كاملة لـ ATA 32: قطع + عمالة',
       'الفريق 22 س · 31K$ — المتعاقد 9 س · 18K$',
     ],
-    reasons: ['أدوات رفع خاصة غير متوفرة محلياً', 'القطعة جاهزة لدى المتعاقد', 'العقد يغطي القطع والعمالة'],
+    reasons: ['لا أدوات رفع محلياً', 'القطعة لدى المتعاقد', 'تغطية كاملة بالعقد'],
     alt: 'الفريق المحلي — بعد وصول القطعة (≈ 22 س)',
   },
 ];

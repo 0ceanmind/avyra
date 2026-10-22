@@ -50,7 +50,6 @@ export default {
       <span class="chip">${icon('calc')} Scoring حسابي شفاف</span>
       <span class="plus">+</span>
       <span class="chip">${icon('sparkle')} Claude لتفسير القرار</span>
-      <span class="muted">= ليس «صندوقاً أسود»</span>
     </div>
   `,
 };

@@ -78,6 +78,7 @@ async function boot() {
   fit();
   deck.start();
   window.__deck = deck;
+  window.__stage3d = stage3d; // debug handle (console / automated checks)
   requestAnimationFrame(() => document.getElementById('boot').classList.add('done'));
 }
 

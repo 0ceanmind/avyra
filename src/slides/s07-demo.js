@@ -4,6 +4,10 @@ import { CASES, decide, NAMES } from '../scoring.js';
 import { $, $$, fmt, tweenNum, setNum } from './util.js';
 
 const STEP_MS = [750, 950, 700, 700, 850, 750];
+// Length of one full simulated run (4.7 s). A fast-forwarded run (deep link, ← from
+// slide 8, → mid-run) reports this, not the few milliseconds it took to skip ahead,
+// so the timer and the approval line always show the same figure as a full run.
+const RUN_S = STEP_MS.reduce((a, b) => a + b, 0) / 1000;
 
 const row = (n, name, ic) => `
   <li class="dm-a" data-i="${n - 1}">
@@ -36,7 +40,7 @@ export default {
   html: () => `
     <div class="dm-head">
       <div>
-        <div class="eyebrow" data-in="0">عرض حي · Demo Mode</div>
+        <div class="eyebrow" data-in="0">Demo Mode</div>
         <h2 class="t-m" data-in="0" style="--d:100">من البلاغ… <span class="grad">إلى القرار.</span></h2>
       </div>
       <div class="dm-meta" data-in="0" style="--d:200">
@@ -47,22 +51,22 @@ export default {
     <div class="dm-right">
       <div class="dm-case glass" data-in="0" style="--d:250">
         <div class="dm-case-top">
-          <span class="label">معرّف الطائرة / رقم الحالة</span>
-          <div class="dm-tabs">${CASES.map((c, i) => `<button data-case="${i}" aria-pressed="${i === 0}">الحالة ${i + 1} · <span class="ltr">${c.tag}</span></button>`).join('')}</div>
+          <span class="label">معرّف الطائرة</span>
+          <div class="dm-tabs">${CASES.map((c, i) => `<button data-case="${i}" aria-pressed="${i === 0}" title="الحالة ${i + 1}"><span class="ltr">${c.tag}</span></button>`).join('')}</div>
         </div>
         <div class="dm-row">
           <div class="dm-input"><span class="mono ltr" data-k="id">${CASES[0].id}</span><i class="caret"></i></div>
           <button class="btn go dm-run" data-k="run">${icon('play', 26)} تحليل</button>
         </div>
       </div>
-      <ol class="dm-agents" data-in="0" style="--d:350">
+      <ol class="dm-agents" data-k="agents" data-in="0" style="--d:350">
         ${AGENTS.map((a, i) => row(i + 1, a.name, a.ic)).join('')}
         ${row(7, 'موافقة المهندس', 'userCheck')}
       </ol>
     </div>
     <div class="dm-result glass" data-k="result">
       <div class="dr-head">
-        <div class="dr-title"><span class="label">التوصية</span><b data-k="win">—</b></div>
+        <div class="dr-title"><span class="label">التوصية <span class="dr-sim">محاكاة</span></span><b data-k="win">—</b></div>
         <div class="dr-conf">
           <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52"/><circle class="p" cx="60" cy="60" r="52" pathLength="100" data-k="confarc"/></svg>
           <div><b class="num ltr" data-k="conf">0%</b><span class="small">الثقة</span></div>
@@ -155,7 +159,7 @@ export default {
   stopTimer() {
     cancelAnimationFrame(this._raf);
     this.k('timerbox').classList.remove('live');
-    this.elapsed = ((performance.now() - this.t0) / 1000).toFixed(1);
+    this.elapsed = Math.max(RUN_S, (performance.now() - this.t0) / 1000).toFixed(1);
     this.k('timer').textContent = this.elapsed;
   },
 
@@ -168,6 +172,7 @@ export default {
     this.k('timerbox').classList.remove('live');
     this.k('timer').textContent = '0.0';
     this.rows.forEach((r) => { r.dataset.state = ''; $(r, '.o').textContent = ''; });
+    this.k('agents').classList.remove('sum');
     const res = this.k('result');
     res.classList.remove('show', 'cmp', 'approved', 'rejected');
     this.k('idle').classList.add('show');
@@ -218,6 +223,9 @@ export default {
   },
 
   showResult(r, c) {
+    // The recommendation now carries the message: agent outputs fold away (hover a row to
+    // see its output again), leaving six ticks and the approval line.
+    this.k('agents').classList.add('sum');
     const res = this.k('result');
     res.classList.add('show');
     res.classList.remove('cmp');
@@ -234,7 +242,7 @@ export default {
     res.classList.add('approved');
     const time = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     this.k('stamptxt').innerHTML = `اعتمد المهندس · <span class="num ltr">${time}</span>`;
-    this.setRow(6, 'done', `اعتُمد خلال ${this.elapsed} ث · سُجّل في سجل التدقيق`);
+    this.setRow(6, 'done', 'اعتُمد · سُجّل في سجل التدقيق'); // the time is on the timer
     this.ctx.stage3d.setMarkerTone('cyan');
   },
   unapprove() {
@@ -250,11 +258,14 @@ export default {
     this.setRow(6, 'rej', 'رُفضت التوصية — سُجّل السبب للتدقيق');
   },
 
+  // Jumping straight to the approved step (deep link #/7/2, or ← from slide 8)
+  // fast-forwards the run. run() starts with reset(), which clears `fast`, so the
+  // flag is set after starting it. Stops waiting if the run is aborted (slide left).
   async complete() {
     if (this.done) return;
-    this.fast = true;
     if (!this.running) this.run();
-    while (!this.done) await new Promise((r) => setTimeout(r, 25));
+    this.fast = true;
+    while (!this.done && this.running) await new Promise((r) => setTimeout(r, 25));
   },
 
   intercept(dir) {

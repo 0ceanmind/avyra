@@ -54,6 +54,9 @@ export class Stage3D {
     this.scan = { on: false, speed: 22 };
     this.frameFns = new Set();
     this.clock = new THREE.Clock();
+    this.pr = 0;
+    this.prCap = 0;
+    this._perf = { skip: 0, samples: [], trial: null, locked: false };
     this._v = new THREE.Vector3();
 
     this.marker = document.createElement('div');
@@ -70,11 +73,47 @@ export class Stage3D {
     r.compile(this.scene, this.camera);
   }
 
+  // Render resolution follows the real screen size (sharp on 4K), capped at 2×.
+  // perf() watches the frame time while the aircraft is on screen. If the GPU cannot hold
+  // ~40 fps, it lowers the resolution in 0.25 steps, down to 0.75× (a 1080p screen starts
+  // at 1×, so it gets a fallback too); at the floor it also turns off backdrop blur, the
+  // costliest effect over a moving WebGL layer. Each step is a trial: if the frame time
+  // does not improve, resolution was not the bottleneck (e.g. a TV running at 30 Hz) —
+  // the step is undone and adaptation stops, so the aircraft never gets softer for nothing.
   setScale(k) {
-    const pr = Math.min(2, Math.max(1, k * (window.devicePixelRatio || 1)));
+    this.maxPR = Math.min(2, Math.max(1, k * (window.devicePixelRatio || 1)));
+    this.applyPR(Math.min(this.maxPR, this.prCap || this.maxPR));
+  }
+  applyPR(pr) {
+    if (pr === this.pr) return;
+    this.pr = pr;
     this.renderer.setPixelRatio(pr);
     this.renderer.setSize(1920, 1080, false);
     if (!this.running) this.render();
+  }
+  perf(raw) {
+    const p = this._perf;
+    if (p.locked || raw > 0.25 || document.hidden) return; // tab switch / pause, not GPU load
+    if (++p.skip <= 30) return; // ignore warm-up frames (shader compile, pose change)
+    p.samples.push(raw);
+    if (p.samples.length < 60) return;
+    const median = p.samples.sort((a, b) => a - b)[30];
+    p.samples.length = 0;
+    if (p.trial) {
+      const helped = median < p.trial.median * 0.9;
+      if (!helped) { this.prCap = p.trial.from; this.applyPR(p.trial.from); p.locked = true; p.trial = null; return; }
+      p.trial = null;
+    }
+    if (median <= 0.024) return;
+    if (this.pr > 0.75) {
+      p.trial = { from: this.pr, median };
+      this.prCap = Math.max(0.75, this.pr - 0.25);
+      this.applyPR(this.prCap);
+      p.skip = 0;
+    } else if (!document.documentElement.classList.contains('lowfx')) {
+      document.documentElement.classList.add('lowfx');
+      p.skip = 0;
+    }
   }
 
   // ── Pose / visibility ──────────────────────────────────────────────
@@ -111,7 +150,7 @@ export class Stage3D {
     if (v) this.start();
     else this._hideT = setTimeout(() => { if (!this.visible) this.stop(); }, 1000);
   }
-  start() { if (!this.running) { this.running = true; this.clock.getDelta(); requestAnimationFrame(this.loop); } }
+  start() { if (!this.running) { this.running = true; this.clock.getDelta(); this._perf.skip = 0; this._perf.samples.length = 0; requestAnimationFrame(this.loop); } }
   stop() { this.running = false; }
 
   // ── Effects API used by slides ─────────────────────────────────────
@@ -213,7 +252,9 @@ export class Stage3D {
   loop() {
     if (!this.running) return;
     requestAnimationFrame(this.loop);
-    const dt = Math.min(0.05, this.clock.getDelta());
+    const raw = this.clock.getDelta();
+    this.perf(raw);
+    const dt = Math.min(0.05, raw);
     const t = this.clock.elapsedTime;
     const u = this.user;
     if (!u.dragging) {

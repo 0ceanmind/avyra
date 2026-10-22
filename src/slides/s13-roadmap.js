@@ -6,7 +6,7 @@ import { $, $$, smoothPath } from './util.js';
 const WP = [
   { p: [1560, 430], when: 'اليوم', title: 'نموذج أوّلي — محاكاة', chips: ['n8n', 'RAG'], side: 'up' },
   { p: [1090, 330], when: '3 أشهر', title: 'Orchestrator كامل', sub: 'تحليل عقود الصيانة فعلياً', side: 'down' },
-  { p: [620, 250], when: '6–12 شهراً', title: 'تكامل حقيقي + عميل أوّل', chips: ['AMOS / Trax', 'AMM / IPC'], side: 'up' },
+  { p: [620, 250], when: '6–12 شهراً', title: 'تكامل حقيقي + عميل تجريبي', chips: ['AMOS / Trax', 'AMM / IPC'], side: 'up' },
   { p: [150, 120], when: '12–24 شهراً', title: 'التوسّع لأساطيل الخليج', side: 'down' },
 ];
 const PATH = smoothPath([[1700, 470], ...WP.map((w) => w.p), [-40, 70]], 0.55);

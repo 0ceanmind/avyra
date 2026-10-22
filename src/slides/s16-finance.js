@@ -32,7 +32,7 @@ export default {
           <b class="fn-v num ltr"><span data-k="v${i}">0</span><small>ر.ع.</small></b>
           <div class="fn-bar"><i data-k="b${i}"></i></div>
           <span class="fn-y">السنة ${i + 1}</span>
-          <span class="fn-meta"><span><b class="num" data-k="cu${i}">0</b> عملاء</span><span><b class="num" data-k="ac${i}">0</b> طائرة</span></span>
+          <span class="fn-meta"><span><b class="num" data-k="cu${i}">0</b> عملاء</span></span>
         </div>`).join('')}
     </div>
     <div class="fn-side">
@@ -75,7 +75,6 @@ export default {
       const d = anim ? 1.1 : 0.3;
       tweenNum($(el, `[data-k="v${i}"]`), r, { duration: d, format: money });
       tweenNum($(el, `[data-k="cu${i}"]`), v['c' + i], { duration: d });
-      tweenNum($(el, `[data-k="ac${i}"]`), v['c' + i] * v.fleet, { duration: d });
     });
     $(el, '[data-k="som"]').style.bottom = `${(1e6 / max) * CH + 128}px`;
     $(el, '[data-k="sum"]').innerHTML = `<span class="ltr">${fmt(v.price)}</span> ر.ع./طائرة/شهر · متوسط <span class="ltr">${v.fleet}</span> طائرة`;

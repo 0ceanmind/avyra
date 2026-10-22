@@ -11,7 +11,9 @@ export const CONFIG = {
 
   // Funding ask. amount is free text (e.g. '150,000 ر.ع.'); amountValue (number, OMR)
   // lets the use‑of‑funds chart show per‑category amounts.
-  ask: { amount: '', amountValue: 0, equity: '', runway: '12–18' },
+  // runway: the source deck shows «[12-18]» in placeholder brackets, like [X] and [%نسبة].
+  // Fill it (e.g. '12–18') only once the team confirms it.
+  ask: { amount: '', amountValue: 0, equity: '', runway: '' },
 
   contact: { email: '', web: '' },
 

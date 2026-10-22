@@ -26,7 +26,7 @@ export default {
     </svg>
     ${SILOS.map((s, i) => `
       <div class="dl-silo glass" data-in="2" style="--d:${120 + i * 110};left:${s.x}px;top:${s.y}px;width:${W}px;height:${H}px">
-        <span class="dl-ic">${icon(s.ic, 30)}</span><span class="dl-name">${s.name}</span><span class="dl-off">منفصل</span>
+        <span class="dl-ic">${icon(s.ic, 30)}</span><span class="dl-name">${s.name}</span><span class="dl-off x" title="منفصل">${icon('close', 20)}</span>
       </div>`).join('')}
     <div class="dl-col">
       <div class="eyebrow" data-in="0">المشكلة</div>

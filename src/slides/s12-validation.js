@@ -8,7 +8,7 @@ export default {
   chapter: 'التحقق',
   steps: 1,
   notes: `الإثبات والتحقق (Validation) — مبني على بحث ميداني حقيقي، وجاهز للتحقق الميداني.
-• بحث سوق ومقابلات مع شخصية المستخدم المستهدف (مدير MRO) أكّدت الألم: ساعات ضائعة يومياً في مكالمات ومقارنات يدوية.
+• بحث سوق ومقابلات مع شخصية المستخدم المستهدف (مدير MRO) أكّدت الألم: ساعات ضائعة يومياً في مكالمات ومقارنات يدوية. (نتيجة البحث وليست اقتباساً حرفياً.)
 • Demo Mode (سيناريو محاكاة كامل بطائرة واحدة) يعرض التوصية النهائية خلال أقل من 60 ثانية.
 • الهدف المحدد للتحقق القادم: نسبة موافقة المهندس على التوصية من أول محاولة > 70%.
 جميع أرقام Demo Mode هي "بيانات محاكاة — Simulation"، ولا تُفهم كنتيجة عميل فعلي. الصدق هنا يبني ثقة أكبر من رقم مبالغ فيه.`,
@@ -20,7 +20,6 @@ export default {
     return `
     <div class="eyebrow" data-in="0">التحقق · Validation</div>
     <h2 class="t-l" data-in="0" style="--d:100">الإثبات والتحقق</h2>
-    <p class="lead" data-in="0" style="--d:200">بُني على بحث ميداني حقيقي — وجاهز للتحقق الميداني.</p>
     <div class="vd-grid">
       <div class="vd-card glass" data-in="0" style="--d:350">
         <div class="vd-vis vd-voice">
@@ -28,9 +27,9 @@ export default {
           <span class="vd-wave">${Array.from({ length: 14 }, (_, i) => `<i style="--i:${i}"></i>`).join('')}</span>
           <span class="vd-av b">${icon('mic', 36)}</span>
         </div>
-        <b class="vd-big">مقابلات ميدانية</b>
-        <p class="body">مع مدراء MRO — أكّدت الألم:</p>
-        <p class="vd-quote">«ساعات ضائعة يومياً في مكالمات ومقارنات يدوية»</p>
+        <b class="vd-big">بحث سوق ومقابلات</b>
+        <p class="body">مع المستخدم المستهدف: مدير MRO</p>
+        <p class="vd-quote">ساعات ضائعة يومياً في مكالمات ومقارنات يدوية</p>
       </div>
       <div class="vd-card glass" data-in="0" style="--d:500">
         <div class="vd-vis">
@@ -38,7 +37,7 @@ export default {
           <div class="vd-tin"><b class="num ltr">&lt; <span data-k="sec">60</span></b><span>ثانية</span></div>
         </div>
         <b class="vd-big">Demo Mode</b>
-        <p class="body">سيناريو محاكاة كامل بطائرة واحدة — التوصية النهائية خلال أقل من 60 ثانية</p>
+        <p class="body">سيناريو محاكاة كامل بطائرة واحدة</p>
       </div>
       <div class="vd-card glass" data-in="0" style="--d:650">
         <div class="vd-vis">
@@ -54,7 +53,7 @@ export default {
         <p class="body">موافقة المهندس على التوصية من أول محاولة</p>
       </div>
     </div>
-    <div class="vd-honest" data-in="0" style="--d:900">${icon('info', 30)}<p>جميع أرقام Demo Mode <b>بيانات محاكاة — Simulation</b>، ولا تُفهم كنتيجة عميل فعلي. <span class="muted">الصدق هنا يبني ثقة أكبر من رقم مبالغ فيه.</span></p></div>
+    <div class="vd-honest" data-in="0" style="--d:900">${icon('info', 30)}<p>جميع أرقام Demo Mode <b>بيانات محاكاة — Simulation</b></p></div>
   `;
   },
   mount(el) { this.el = el; },

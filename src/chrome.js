@@ -32,11 +32,11 @@ export function createChrome({ root, deck, ctx }) {
           <dt><kbd>Home</kbd> <kbd>End</kbd></dt><dd>البداية / النهاية</dd>
           <dt><kbd>1</kbd>…<kbd>17</kbd> ثم <kbd>Enter</kbd></dt><dd>انتقال مباشر لشريحة</dd>
           <dt><kbd>O</kbd></dt><dd>كل الشرائح</dd>
-          <dt><kbd>F</kbd></dt><dd>ملء الشاشة</dd>
+          <dt><kbd>F</kbd> <kbd>F5</kbd></dt><dd>ملء الشاشة</dd>
           <dt><kbd>A</kbd></dt><dd>اسأل AVYRA — مساعد الأسئلة</dd>
           <dt><kbd>S</kbd></dt><dd>نافذة المقدّم (ملاحظات + مؤقت)</dd>
           <dt><kbd>R</kbd></dt><dd>إعادة تشغيل الشريحة</dd>
-          <dt><kbd>B</kbd></dt><dd>شاشة سوداء</dd>
+          <dt><kbd>B</kbd> <kbd>.</kbd></dt><dd>شاشة سوداء (<kbd>Esc</kbd> للعودة)</dd>
         </dl>
       </div>
     </div>
@@ -109,13 +109,57 @@ export function createChrome({ root, deck, ctx }) {
     markOv();
   });
 
+  // Esc only closes things, one layer at a time. It never opens anything: remotes send
+  // Esc for "end show", and Esc also leaves full screen — neither should pop up the slide grid.
+  function escape() {
+    if ($('help').classList.contains('show')) toggleHelp(false);
+    else if ($('overview').classList.contains('show')) toggleOverview(false);
+    else if (ctx.assistant?.isOpen()) ctx.assistant.close();
+    else if ($('black').classList.contains('show')) toggleBlack();
+  }
+  // Moving the deck closes anything drawn over the slide (help, grid, Ask AVYRA panel).
+  function navigate(dir) {
+    toggleHelp(false);
+    toggleOverview(false);
+    if (ctx.assistant?.isOpen()) ctx.assistant.close();
+    dir > 0 ? deck.next() : deck.prev();
+  }
+
+  // Presenter-remote keys always work, whatever has focus (the assistant's text field, a
+  // chip inside its panel, the slide grid…). Capture phase: no panel handler can swallow them.
+  //  · PgDn / PgUp — every remote's next / previous.
+  //  · F5 / Shift+F5 — a remote's "start show": go full screen instead of reloading mid-talk.
+  //    (Ctrl+R still reloads on purpose.)
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === 'F5') {
+      e.preventDefault(); e.stopPropagation();
+      if (!document.fullscreenElement) fullscreen();
+    } else if (e.key === 'PageDown' || e.key === 'PageUp') {
+      e.preventDefault(); e.stopPropagation();
+      navigate(e.key === 'PageDown' ? 1 : -1);
+    }
+  }, true);
+
+  // Remote keys pressed while the speaker view has focus arrive over the deck channel
+  // (next / prev / go are handled in deck.js; blank screen and Esc are chrome's).
+  const remote = 'BroadcastChannel' in window ? new BroadcastChannel('avyra-deck') : null;
+  remote?.addEventListener('message', (e) => {
+    const m = e.data || {};
+    if (m.type !== 'cmd') return;
+    if (m.cmd === 'black') toggleBlack();
+    if (m.cmd === 'escape') escape();
+  });
+
   // Keyboard
   let jumpBuf = '';
   let jumpT = 0;
   const showJump = () => { $('jump').textContent = jumpBuf; $('jump').classList.toggle('show', !!jumpBuf); };
   window.addEventListener('keydown', (e) => {
     const t = e.target;
-    const typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+    // Only real text entry keeps the keyboard. A slider, switch or button that still has
+    // focus after a mouse click must not swallow →/←/Space from the keyboard or clicker.
+    const typing = t && ((t.tagName === 'INPUT' && !/^(range|checkbox|radio|button|submit|reset)$/i.test(t.type)) || t.tagName === 'TEXTAREA' || t.isContentEditable);
     if (typing) {
       if (e.key === 'Escape') { t.blur(); ctx.assistant?.close(); }
       return;
@@ -155,19 +199,15 @@ export function createChrome({ root, deck, ctx }) {
 
     let handled = true;
     switch (true) {
-      case e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey) || code === 'KeyN':
-        deck.next(); break;
-      case e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Backspace' || (e.key === ' ' && e.shiftKey):
-        deck.prev(); break;
+      case e.key === 'ArrowRight' || e.key === 'ArrowDown' || (e.key === ' ' && !e.shiftKey) || code === 'KeyN':
+        navigate(1); break;
+      case e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'Backspace' || (e.key === ' ' && e.shiftKey):
+        navigate(-1); break;
       case e.key === 'Home': deck.go(0, 0); break;
       case e.key === 'End': deck.go(deck.total - 1, 0); break;
       case code === 'KeyF': fullscreen(); break;
       case code === 'KeyO' || code === 'KeyG': toggleOverview(); break;
-      case e.key === 'Escape':
-        if ($('help').classList.contains('show')) toggleHelp(false);
-        else if (ctx.assistant?.isOpen()) ctx.assistant.close();
-        else toggleOverview(true);
-        break;
+      case e.key === 'Escape': escape(); break;
       case code === 'KeyH' || e.key === '?': toggleHelp(); break;
       case code === 'KeyB' || code === 'Period': toggleBlack(); break;
       case code === 'KeyA': ctx.assistant?.toggle(); break;

@@ -44,7 +44,7 @@ export default {
         <div class="ba-time"><span class="num ltr c-green">&lt; 1</span><span class="u">دقيقة</span></div>
         <div class="ba-card glass">
           <img src="${BASE}assets/logo-badge.png" alt="">
-          <div><span class="label">توصية واحدة موثّقة من AVYRA</span><b>الفريق المحلي · <span class="num ltr">82%</span></b></div>
+          <div><span class="label">توصية واحدة موثّقة من AVYRA</span><b>الفريق المحلي</b></div>
           <span class="ba-ok">${icon('check', 34)}</span>
         </div>
         <p class="ba-cap">مصدر واحد · منطق شفاف · قرار للمهندس</p>

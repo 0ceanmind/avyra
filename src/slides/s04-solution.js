@@ -38,7 +38,7 @@ export default {
       <div class="sol-rec glass" data-in="1" style="--d:200">
         <span class="label">التوصية</span>
         <b>الفريق المحلي</b>
-        <div class="sol-chips"><span class="chip sm">${icon('search')} السبب</span><span class="chip sm">${icon('file')} الدليل</span><span class="chip sm">${icon('gauge')} الثقة <span class="num ltr">82%</span></span></div>
+        <div class="sol-chips"><span class="chip sm">${icon('search')} السبب</span><span class="chip sm">${icon('file')} الدليل</span><span class="chip sm">${icon('gauge')} درجة الثقة</span></div>
       </div>
       <div class="sol-eng" data-in="2" style="--d:250">
         <div class="sol-eng-c">${icon('userCheck', 56)}</div>

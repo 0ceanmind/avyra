@@ -3,10 +3,10 @@ import { CASES, FACTORS, WEIGHTS, WEIGHTS_AOG, decide, explain, NAMES } from '..
 import { $, $$, fmt, tweenNum } from './util.js';
 
 const TOGGLES = [
-  { id: 'staff', label: 'الفنيون المؤهلون متاحون', ic: 'users' },
-  { id: 'stock', label: 'القطعة في المخزون المحلي', ic: 'box' },
-  { id: 'labor', label: 'العقد يغطي عمالة المتعاقد', ic: 'file' },
-  { id: 'aog', label: 'أولوية قصوى — AOG', ic: 'zap' },
+  { id: 'staff', label: 'فنيون مؤهلون متاحون', ic: 'users' },
+  { id: 'stock', label: 'القطعة متوفرة محلياً', ic: 'box' },
+  { id: 'labor', label: 'العقد يغطي العمالة', ic: 'file' },
+  { id: 'aog', label: 'أولوية AOG', ic: 'zap' },
 ];
 const PRESETS = [
   { staff: true, stock: true, labor: false, aog: false },
