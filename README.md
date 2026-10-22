@@ -23,4 +23,6 @@ npm run dev
 | R | Replay current slide |
 | B | Black screen |
 
+Deploy updates to GitHub Pages with `npm run deploy`.
+
 Editable content (team roles/bios, funding amount, contact, financial assumptions) lives in `src/config.js`. Empty fields are hidden on screen.
