@@ -18,13 +18,16 @@ export default {
   steps: 1,
   notes: `لقطة مالية — التوقعات لثلاث سنوات: عدد العملاء، عدد الطائرات المُدارة، الإيراد السنوي المقدّر.
 النموذج: الإيراد = العملاء × متوسط الأسطول × الاشتراك الشهري × 12 (اشتراك SaaS لكل طائرة).
-الافتراضات الحالية توضيحية ويمكن تعديلها مباشرة أمام اللجنة ("تعديل الافتراضات")، والخط المتقطّع = الحد الأدنى لـ SOM (1M ر.ع.).
+الافتراضات الحالية: 300 ر.ع./طائرة/شهر (سعر افتراضي يحتاج إلى تحقق تجاري)، متوسط 20 طائرة، 2 ← 6 ← 12 عميلاً.
+النتيجة: 144,000 ← 432,000 ← 864,000 ر.ع. — الهدف خلال 3 سنوات: 864,000 ر.ع. إيرادات سنوية في السنة الثالثة.
+مهم: هذه إيرادات متوقعة — ليست أرباحاً ولا إيرادات محققة. لا توجد إيرادات حتى الآن.
+يمكن تعديل الافتراضات مباشرة أمام اللجنة ("تعديل الافتراضات")، والخط المتقطّع = الحد الأدنى لـ SOM (1M ر.ع.).
 القيم الافتراضية في src/config.js.`,
   html: ({ config }) => `
     <div class="eyebrow" data-in="0">الاستثمار</div>
     <h2 class="t-l" data-in="0" style="--d:100">لقطة مالية</h2>
     <p class="lead" data-in="0" style="--d:200">التوقعات لثلاث سنوات</p>
-    <span class="badge-sim fn-badge" data-in="0" style="--d:300">${icon('info')} سيناريو توضيحي — افتراضات قابلة للتعديل</span>
+    <span class="badge-sim fn-badge" data-in="0" style="--d:300">${icon('info')} إيرادات متوقعة — ليست أرباحاً ولا إيرادات محققة</span>
     <div class="fn-chart" data-in="0" style="--d:350">
       <div class="fn-som" data-k="som"><span class="small">SOM · 1M ر.ع.</span></div>
       ${[0, 1, 2].map((i) => `
@@ -36,6 +39,11 @@ export default {
         </div>`).join('')}
     </div>
     <div class="fn-side">
+      <div class="fn-goal glass" data-in="0" style="--d:400">
+        <span class="label">الهدف خلال 3 سنوات</span>
+        <b class="num ltr c-green" data-k="goal"></b>
+        <span class="small">إيرادات السنة الثالثة — وفق نموذج الاشتراكات</span>
+      </div>
       <div class="fn-sum glass" data-in="0" style="--d:450">
         <span class="label">الإيراد = العملاء × الأسطول × الاشتراك × 12</span>
         <b class="num" data-k="sum"></b>
@@ -77,7 +85,8 @@ export default {
       tweenNum($(el, `[data-k="cu${i}"]`), v['c' + i], { duration: d });
     });
     $(el, '[data-k="som"]').style.bottom = `${(1e6 / max) * CH + 128}px`;
-    $(el, '[data-k="sum"]').innerHTML = `<span class="ltr">${fmt(v.price)}</span> ر.ع./طائرة/شهر · متوسط <span class="ltr">${v.fleet}</span> طائرة`;
+    $(el, '[data-k="sum"]').innerHTML = `<span class="ltr">${fmt(v.price)}</span> ر.ع./طائرة/شهر <em class="c-amber">(سعر افتراضي)</em> · متوسط <span class="ltr">${v.fleet}</span> طائرة`;
+    $(el, '[data-k="goal"]').textContent = `${fmt(rev[2])} ر.ع.`;
   },
   enter() {
     $$(this.el, '.fn-bar i').forEach((b) => (b.style.height = '0px'));

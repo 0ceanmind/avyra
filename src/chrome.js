@@ -8,7 +8,7 @@ export function createChrome({ root, deck, ctx }) {
     <div class="ch-brand"><img src="${BASE}assets/logo-badge.png" alt=""><span>AVYRA</span></div>
     <div class="ch-chapter"><span class="num ltr" data-k="chnum">01</span><span data-k="chname"></span></div>
     <div class="ch-progress"><i data-k="bar"></i></div>
-    <div class="ch-counter"><span class="num ltr" data-k="count">01 / 17</span><span class="ch-dots" data-k="dots"></span></div>
+    <div class="ch-counter"><span class="num ltr" data-k="count">01 / 18</span><span class="ch-dots" data-k="dots"></span></div>
     <nav class="ch-tools" aria-label="أدوات العرض">
       <button data-act="next" title="التالي (→)">${icon('chevL', 26)}</button>
       <button data-act="prev" title="السابق (←)">${icon('chevR', 26)}</button>
@@ -30,7 +30,7 @@ export function createChrome({ root, deck, ctx }) {
           <dt><kbd>→</kbd> <kbd>Space</kbd> <kbd>PgDn</kbd></dt><dd>الخطوة / الشريحة التالية</dd>
           <dt><kbd>←</kbd> <kbd>PgUp</kbd></dt><dd>السابق</dd>
           <dt><kbd>Home</kbd> <kbd>End</kbd></dt><dd>البداية / النهاية</dd>
-          <dt><kbd>1</kbd>…<kbd>17</kbd> ثم <kbd>Enter</kbd></dt><dd>انتقال مباشر لشريحة</dd>
+          <dt><kbd>1</kbd>…<kbd>18</kbd> ثم <kbd>Enter</kbd></dt><dd>انتقال مباشر لشريحة</dd>
           <dt><kbd>O</kbd></dt><dd>كل الشرائح</dd>
           <dt><kbd>F</kbd> <kbd>F5</kbd></dt><dd>ملء الشاشة</dd>
           <dt><kbd>A</kbd></dt><dd>اسأل AVYRA — مساعد الأسئلة</dd>

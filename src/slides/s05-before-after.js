@@ -7,7 +7,7 @@ export default {
   chapter: 'الحل',
   steps: 2,
   notes: `قبل: 4 أنظمة منفصلة، مكالمات، عقود ورقية — 24–48 ساعة.
-بعد: توصية واحدة موثّقة من AVYRA — أقل من دقيقة واحدة.
+بعد: توصية واحدة موثّقة من AVYRA — أقل من دقيقة واحدة. هذه نتيجة محاكاة (Simulation Result) من Demo Mode، وليست تجربة ميدانية.
 الشريط الزمني بمقياس حقيقي: 48 ساعة مقابل دقيقة واحدة (الأخضر بالكاد يُرى).
 استخدم مفتاح قبل/بعد أو السهم.`,
   html: () => `
@@ -41,7 +41,7 @@ export default {
         <p class="ba-cap">4 أنظمة منفصلة · مكالمات · عقود ورقية</p>
       </div>
       <div class="ba-state ba-after">
-        <div class="ba-time"><span class="num ltr c-green">&lt; 1</span><span class="u">دقيقة</span></div>
+        <div class="ba-time"><span class="num ltr c-green">&lt; 1</span><span class="u">دقيقة</span><i class="ba-br"></i><span class="badge-sim ba-sim">نتيجة محاكاة · Simulation Result</span></div>
         <div class="ba-card glass">
           <img src="${BASE}assets/logo-badge.png" alt="">
           <div><span class="label">توصية واحدة موثّقة من AVYRA</span><b>الفريق المحلي</b></div>

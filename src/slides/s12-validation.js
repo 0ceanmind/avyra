@@ -10,7 +10,9 @@ export default {
   notes: `الإثبات والتحقق (Validation) — مبني على بحث ميداني حقيقي، وجاهز للتحقق الميداني.
 • بحث سوق ومقابلات مع شخصية المستخدم المستهدف (مدير MRO) أكّدت الألم: ساعات ضائعة يومياً في مكالمات ومقارنات يدوية. (نتيجة البحث وليست اقتباساً حرفياً.)
 • Demo Mode (سيناريو محاكاة كامل بطائرة واحدة) يعرض التوصية النهائية خلال أقل من 60 ثانية.
-• الهدف المحدد للتحقق القادم: نسبة موافقة المهندس على التوصية من أول محاولة > 70%.
+فصلنا بوضوح بين ما أُنجز وما هو هدف:
+— ما أنجزناه: البحث والمقابلات + نتيجة المحاكاة (< 60 ثانية).
+— هدف مستقبلي لم يُقَس بعد: نسبة موافقة المهندس على التوصية من أول محاولة > 70% في التجربة الميدانية القادمة.
 جميع أرقام Demo Mode هي "بيانات محاكاة — Simulation"، ولا تُفهم كنتيجة عميل فعلي. الصدق هنا يبني ثقة أكبر من رقم مبالغ فيه.`,
   html: () => {
     const G = { cx: 160, cy: 160, r: 128 };
@@ -20,6 +22,10 @@ export default {
     return `
     <div class="eyebrow" data-in="0">التحقق · Validation</div>
     <h2 class="t-l" data-in="0" style="--d:100">الإثبات والتحقق</h2>
+    <div class="vd-groups" data-in="0" style="--d:250">
+      <span class="vd-g now">${icon('check', 24)} ما أنجزناه: بحث + نتيجة محاكاة</span>
+      <span class="vd-g next">${icon('target', 24)} هدف مستقبلي — لم يُقَس بعد</span>
+    </div>
     <div class="vd-grid">
       <div class="vd-card glass" data-in="0" style="--d:350">
         <div class="vd-vis vd-voice">
@@ -36,10 +42,10 @@ export default {
           <svg class="vd-timer" viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="92"/><circle class="p" cx="110" cy="110" r="92" pathLength="100" data-k="tarc"/></svg>
           <div class="vd-tin"><b class="num ltr">&lt; <span data-k="sec">60</span></b><span>ثانية</span></div>
         </div>
-        <b class="vd-big">Demo Mode</b>
-        <p class="body">سيناريو محاكاة كامل بطائرة واحدة</p>
+        <b class="vd-big">نتيجة محاكاة</b>
+        <p class="body">Demo Mode: سيناريو محاكاة بطائرة واحدة</p>
       </div>
-      <div class="vd-card glass" data-in="0" style="--d:650">
+      <div class="vd-card vd-future glass" data-in="0" style="--d:650">
         <div class="vd-vis">
           <svg class="vd-gauge" viewBox="0 0 320 200" aria-hidden="true">
             <path class="trk" d="${arc(G.cx, G.cy, G.r, a0, a1)}"/>
@@ -49,11 +55,11 @@ export default {
           </svg>
           <div class="vd-gin"><b class="num ltr">&gt; <span data-k="pct">0</span>%</b></div>
         </div>
-        <b class="vd-big">الهدف القادم</b>
+        <b class="vd-big">هدف التجربة الميدانية</b>
         <p class="body">موافقة المهندس على التوصية من أول محاولة</p>
       </div>
     </div>
-    <div class="vd-honest" data-in="0" style="--d:900">${icon('info', 30)}<p>جميع أرقام Demo Mode <b>بيانات محاكاة — Simulation</b></p></div>
+    <div class="vd-honest" data-in="0" style="--d:900">${icon('info', 30)}<p>أرقام Demo Mode <b>بيانات محاكاة — Simulation</b></p></div>
   `;
   },
   mount(el) { this.el = el; },

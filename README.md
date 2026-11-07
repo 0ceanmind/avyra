@@ -15,7 +15,7 @@ npm run dev
 | --- | --- |
 | → / Space / PgDn | Next step / slide |
 | ← / PgUp | Previous |
-| 1–17 then Enter | Jump to slide |
+| 1–18 then Enter | Jump to slide |
 | O | All slides |
 | F / F5 | Full screen (F5 from a presenter remote no longer reloads the page) |
 | A | "Ask AVYRA" Q&A assistant |

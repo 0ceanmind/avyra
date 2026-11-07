@@ -13,14 +13,16 @@ export const CONFIG = {
   // lets the use‑of‑funds chart show per‑category amounts.
   // runway: the source deck shows «[12-18]» in placeholder brackets, like [X] and [%نسبة].
   // Fill it (e.g. '12–18') only once the team confirms it.
-  ask: { amount: '', amountValue: 0, equity: '', runway: '' },
+  // Investment snapshot (OMR): 75K for 20% → pre-money 300K, post-money 375K.
+  ask: { amount: '75,000 ر.ع.', amountValue: 75000, equity: '20%', preMoney: '300,000 ر.ع.', postMoney: '375,000 ر.ع.', runway: '' },
 
   contact: { email: '', web: '' },
 
   // Illustrative 3‑year model (adjustable live on the slide).
-  // Price is consistent with the deck's SOM (1–3M OMR / yr for 30–50 operators × 10–40 aircraft).
+  // 300 OMR is an assumed price that still needs commercial validation.
+  // Year 3 = 12 customers × 20 aircraft × 300 × 12 = 864,000 OMR (the deck's 3‑year target).
   model: {
-    price: 200, // OMR per managed aircraft per month (SaaS)
+    price: 300, // OMR per managed aircraft per month (SaaS) — assumption
     fleet: 20, // average aircraft per customer
     customers: [2, 6, 12], // year 1, 2, 3
   },

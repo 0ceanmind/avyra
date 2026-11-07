@@ -92,7 +92,7 @@ await b.goto(URL0 + '#/1');
 const audits = [];
 for (let guard = 0; guard < 60; guard++) {
   const [i, s] = await st();
-  await b.sleep(i === 16 ? 4600 : i === 6 && s === 1 ? 6500 : 2600);
+  await b.sleep(i === 17 ? 4600 : i === 6 && s === 1 ? 6500 : 2600);
   const a = await b.eval(AUDIT);
   audits.push(a);
   await b.shot(path.join(out, `s${String(i + 1).padStart(2, '0')}-${s}.png`));
@@ -102,7 +102,7 @@ for (let guard = 0; guard < 60; guard++) {
   if (JSON.stringify(await st()) === before) break;
 }
 const lastState = await st();
-check('F1 keyboard walk reaches slide 17', lastState[0] === 16, `states visited=${audits.length}`);
+check('F1 keyboard walk reaches slide 18', lastState[0] === 17, `states visited=${audits.length}`);
 check('F1 no console errors/warnings during walk', b.errors.length === 0, b.errors.slice(0, 5).join(' | '));
 const allSmall = audits.flatMap((a) => a.small.map((s) => `#${a.idx + 1}/${a.step} ${s}`));
 check('T3 no visible text below 22 design px', allSmall.length === 0, `${allSmall.length} nodes`);
@@ -120,10 +120,11 @@ for (const a of audits) perSlide[a.idx + 1] = Math.max(perSlide[a.idx + 1] || 0,
 fs.writeFileSync(path.join(out, 'words.json'), JSON.stringify(perSlide, null, 1));
 console.log('words per slide (max over steps):', JSON.stringify(perSlide));
 // Every slide is measured at every step. Budget: 50 words (a title + a few keywords or
-// short bullets); the live demo, which is the product's own screen, gets 90.
-const BUDGET = (n) => (n === '7' ? 90 : 50);
+// short bullets), +10 for the review's required labels (simulation / assumption / target /
+// source); the live demo, which is the product's own screen, gets 90; the sources list 80.
+const BUDGET = (n) => (n === '7' ? 90 : n === '17' ? 80 : 60);
 const over = Object.entries(perSlide).filter(([n, w]) => w > BUDGET(n));
-check('T5 visible words per slide ≤ 50 (live demo #7 ≤ 90), every slide and step', over.length === 0, over.map(([n, w]) => `#${n}:${w}`).join(' '));
+check('T5 visible words per slide ≤ 60 (live demo #7 ≤ 90, sources #17 ≤ 80), every slide and step', over.length === 0, over.map(([n, w]) => `#${n}:${w}`).join(' '));
 
 // ── F2: after dragging a range slider, → must still advance the deck ─────────
 await b.goto(URL0 + '#/3');
@@ -206,9 +207,9 @@ check('F6b ← from slide 8 shows the approved demo at once, timer ≥ 4.7 s', J
 
 // ── F7: every slide reachable by hash, no errors ───────────────────────────
 const e0 = b.errors.length;
-for (let i = 1; i <= 17; i++) { await b.eval(`location.hash = '#/${i}'`); await b.sleep(250); }
+for (let i = 1; i <= 18; i++) { await b.eval(`location.hash = '#/${i}'`); await b.sleep(250); }
 const okIdx = await b.eval('__deck.index');
-check('F7 hash routing to all 17 slides without errors', okIdx === 16 && b.errors.length === e0, b.errors.slice(e0).join(' | '));
+check('F7 hash routing to all 18 slides without errors', okIdx === 17 && b.errors.length === e0, b.errors.slice(e0).join(' | '));
 
 // ── F8: adaptive 3D resolution (driven through its frame-time logic) ──────
 await b.goto(URL0 + '#/1');

@@ -474,3 +474,51 @@
 .cl-contact { font-size: 26px; color: var(--ink-2); margin: 0; }
 .cl-act { display: flex; align-items: center; gap: 30px; margin-top: 18px; }
 .cl-thanks { font-size: 30px; color: var(--ink-3); }
+
+/* ── Review fixes: source & assumption labels ─────── */
+.ba-time { flex-wrap: wrap; align-content: center; }
+.ba-br { flex-basis: 100%; height: 0; }
+.ba-sim { margin-top: 6px; }
+.lg-scale { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; font-size: 24px; color: var(--amber); }
+.lg-scale .ic { flex: none; }
+.mt-pills button { font-family: inherit; letter-spacing: 0; }
+.mt-src { margin: 18px 0 0; }
+.av-src { position: absolute; left: 140px; right: 140px; bottom: 90px; display: flex; align-items: center; gap: 10px; margin: 0; flex-wrap: wrap; }
+.av-src .ic { color: var(--cyan); flex: none; }
+
+/* 12 · achieved vs. future target */
+.vd-groups { position: absolute; left: 140px; right: 140px; top: 330px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+.vd-g { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 600; padding-bottom: 12px; border-bottom: 2px solid; }
+.vd-g.now { color: var(--cyan); border-color: rgba(58, 216, 247, 0.5); }
+.vd-g.next { color: var(--amber); border-color: rgba(255, 181, 71, 0.5); }
+.vd-card.vd-future { border-style: dashed; border-color: rgba(255, 181, 71, 0.5); }
+
+/* 15 · investment snapshot tiles (2 × 2) */
+.slide-ask .ak-col { top: 372px; }
+.slide-ask .ak-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+.slide-ask .ak-tile { padding: 14px 24px; gap: 2px; }
+.slide-ask .ak-tile b { font-size: 44px; }
+.slide-ask .ak-tile.hl b { color: var(--green); }
+.slide-ask .ak-legend { gap: 4px; }
+.slide-ask .ak-legend li { padding: 8px 20px; }
+.slide-ask .ak-legend i { height: 40px; }
+
+/* 16 · 3‑year target */
+.slide-finance .fn-side { top: 410px; }
+.slide-finance .fn-som span { left: auto; right: 0; }
+.fn-goal { padding: 22px 30px; border-radius: 28px; display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; border-color: rgba(147, 226, 91, 0.4); }
+.fn-goal b { font-size: 60px; font-weight: 700; line-height: 1.1; }
+
+/* 17 · Sources ────────────────────────────────────── */
+.src-list { position: absolute; left: 140px; right: 140px; top: 360px; list-style: none; margin: 0; padding: 0; }
+.src-row { display: grid; grid-template-columns: 72px 1fr 560px 280px; align-items: center; gap: 24px; height: 112px; border-top: 1px solid var(--line); }
+.src-row:last-child { border-bottom: 1px solid var(--line); }
+.src-n { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; font-weight: 700; color: var(--cyan); border: 1px solid rgba(58, 216, 247, 0.45); background: rgba(58, 216, 247, 0.08); }
+.src-t { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.src-t b { font-size: 32px; font-weight: 700; }
+.src-t span { font-size: 24px; color: var(--ink-3); }
+.src-use { display: flex; align-items: center; gap: 10px; font-size: 27px; color: var(--ink-2); }
+.src-use .ic { color: var(--cyan); flex: none; }
+.src-fig { white-space: nowrap; font-size: 36px; font-weight: 700; text-align: left; background: var(--brand-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.slide-finance .fn-v { position: relative; z-index: 2; background: #05070d; padding: 0 12px; border-radius: 12px; }
+.fn-sum em, .cs-stats em { font-style: normal; }

@@ -4,9 +4,9 @@ import { $, $$ } from './util.js';
 // Rings are nested, not to scale; each step zooms one level deeper.
 const C = [430, 400];
 const RINGS = [
-  { k: 'TAM', r: 330, cls: 'tam' },
-  { k: 'SAM', r: 196, cls: 'sam' },
-  { k: 'SOM', r: 86, cls: 'som' },
+  { k: 'MRO', pill: 'سوق MRO', r: 330, cls: 'tam' },
+  { k: 'SOFTWARE', pill: 'برمجيات MRO', r: 196, cls: 'sam' },
+  { k: 'SOM', pill: 'SOM', r: 86, cls: 'som' },
 ];
 const SCALE = RINGS.map((x) => RINGS[0].r / x.r);
 
@@ -20,10 +20,11 @@ function sunflower(n, rMax) {
   return pts;
 }
 
+// Services market and software market are shown separately, never as one figure.
 const INFO = [
-  { val: '$88.7B', unit: 'مليار دولار', desc: 'سوق صيانة وإصلاح وعمرة الطائرات (MRO) عالمياً', chip: 'نمو 6.8% سنوياً' },
-  { val: '$6.3B', unit: 'مليار دولار', desc: 'حلول الصيانة التنبؤية بالذكاء الاصطناعي عالمياً', chip: 'نمو 10–17% سنوياً' },
-  { val: '1–3M', unit: 'مليون ر.ع. سنوياً', desc: '30–50 شركة طيران / MRO في عُمان والخليج — أساطيل 10–40 طائرة', chip: '≈ $2.6–7.8M' },
+  { val: '$136B', unit: 'مليار دولار · 2025', desc: 'سوق صيانة الطائرات (MRO) عالمياً — خدمات، وليس برمجيات', chip: 'الخليج: <span class="ltr">$5.0B</span> · نمو 10% سنوياً', src: 'Oliver Wyman 2026 · Mordor Intelligence' },
+  { val: '$7.6B', unit: 'مليار دولار · 2025', desc: 'سوق برمجيات MRO عالمياً — السوق الذي ننافس فيه', chip: 'نمو 4.2% سنوياً', src: 'Global Market Insights' },
+  { val: '1–3M', unit: 'مليون ر.ع. سنوياً', desc: '30–50 شركة طيران / MRO في عُمان والخليج — أساطيل 10–40 طائرة', chip: '≈ $2.6–7.8M', src: 'تقدير الفريق' },
 ];
 
 export default {
@@ -31,10 +32,10 @@ export default {
   title: 'حجم السوق',
   chapter: 'السوق',
   steps: 3,
-  notes: `حجم السوق — سوق بمليارات الدولارات، وبوابة دخول واضحة في الخليج.
-TAM: 88.7 مليار $ — سوق MRO عالمياً، نمو 6.8% سنوياً.
-SAM: 6.3 مليار $ — حلول الصيانة التنبؤية بالذكاء الاصطناعي عالمياً، نمو 10–17% سنوياً.
-SOM: 1–3 مليون ر.ع. سنوياً — 30–50 شركة طيران/MRO محتملة في عُمان والخليج تدير أساطيل 10–40 طائرة (≈ 2.6–7.8 مليون $ بسعر الربط 1 ر.ع. = 2.6 $).
+  notes: `حجم السوق — نعرض سوق خدمات MRO وسوق برمجيات MRO كلّاً على حدة (لا نقدّم سوق الخدمات كأنه سوق برمجيات).
+1) سوق MRO عالمياً (خدمات): 136 مليار $ في 2025 — Oliver Wyman, Global Fleet & MRO Market Forecast 2026–2036. السوق الخليجي: 5.02 مليار $ (2026) ← 8.87 مليار $ (2032)، نمو ≈10% سنوياً — Mordor Intelligence, GCC Aircraft MRO.
+2) سوق برمجيات MRO عالمياً: 7.62 مليار $ في 2025، نمو 4.2% سنوياً (2026–2035) — Global Market Insights, Aviation MRO Software. هذا هو السوق الذي ننافس فيه.
+3) SOM: 1–3 مليون ر.ع. سنوياً — تقدير الفريق: 30–50 شركة طيران/MRO محتملة في عُمان والخليج تدير أساطيل 10–40 طائرة (≈ 2.6–7.8 مليون $ بسعر الربط 1 ر.ع. = 2.6 $).
 الدوائر للتوضيح وليست بمقياس حقيقي. كل خطوة = تكبير لمستوى أعمق.`,
   html: () => `
     <div class="mt-zone fade" data-in="0">
@@ -56,8 +57,8 @@ SOM: 1–3 مليون ر.ع. سنوياً — 30–50 شركة طيران/MRO م
     <div class="mt-col">
       <div class="eyebrow" data-in="0">السوق</div>
       <h2 class="t-l" data-in="0" style="--d:100">حجم السوق</h2>
-      <p class="lead" data-in="0" style="--d:200">سوق بالمليارات… وبوابة دخول واضحة في الخليج.</p>
-      <div class="mt-pills no-drag" data-in="0" style="--d:300">${RINGS.map((x, i) => `<button data-l="${i}">${x.k}</button>`).join('')}</div>
+      <p class="lead" data-in="0" style="--d:200">سوق الخدمات وسوق البرمجيات — كلٌّ على حدة.</p>
+      <div class="mt-pills no-drag" data-in="0" style="--d:300">${RINGS.map((x, i) => `<button data-l="${i}">${x.pill}</button>`).join('')}</div>
       <div class="mt-info" data-in="0" style="--d:400">
         ${INFO.map((x, i) => `
           <div class="mt-i" data-l="${i}">
@@ -65,6 +66,7 @@ SOM: 1–3 مليون ر.ع. سنوياً — 30–50 شركة طيران/MRO م
             <div class="mt-u">${x.unit}</div>
             <p class="body">${x.desc}</p>
             <span class="chip">${icon(i === 2 ? 'pin' : 'trend')} ${x.chip}</span>
+            <p class="mt-src small">المصدر: <span class="ltr">${x.src}</span></p>
           </div>`).join('')}
       </div>
     </div>

@@ -14,6 +14,7 @@ import roadmap from './s13-roadmap.js';
 import team from './s14-team.js';
 import ask from './s15-ask.js';
 import finance from './s16-finance.js';
-import closing from './s17-closing.js';
+import sources from './s17-sources.js';
+import closing from './s18-closing.js';
 
-export const slides = [hero, dilemma, cost, solution, beforeafter, product, demo, logic, market, bmc, advantage, validation, roadmap, team, ask, finance, closing];
+export const slides = [hero, dilemma, cost, solution, beforeafter, product, demo, logic, market, bmc, advantage, validation, roadmap, team, ask, finance, sources, closing];

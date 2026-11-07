@@ -11,9 +11,9 @@ export default {
   steps: 3,
   notes: `أرقام المشكلة من العرض:
 • 24–48 ساعة: زمن القرار اليدوي الحالي.
-• 10,000$: تكلفة توقف الطائرة على الأرض (AOG) بالساعة.
+• 10,000$: تكلفة توقف الطائرة على الأرض (AOG) بالساعة — افتراض توضيحي (تختلف التكلفة الفعلية حسب نوع الطائرة والمسار)، وليس رقماً موثّقاً لشركة محددة.
 • 68% من قادة MRO يضعون الذكاء الاصطناعي أولوية في 2026.
-العدّاد = ساعات الانتظار × 10,000$ — اسحب المؤشر لتوضيح الأثر مباشرة.
+العدّاد = ساعات الانتظار × 10,000$ (افتراض توضيحي) — اسحب المؤشر لتوضيح الأثر مباشرة.
 الخلاصة: قرار صيانة واحد يكلّف شركات الطيران أياماً وعشرات آلاف الدولارات.`,
   html: () => {
     const ticks = Array.from({ length: 48 }, (_, i) => {
@@ -36,7 +36,7 @@ export default {
       <div class="cs-center">
         <div class="cs-h"><span class="num" data-k="h">0</span> ساعة انتظار</div>
         <div class="cs-money num ltr">$<span data-k="money">0</span></div>
-        <div class="label">تكلفة توقف الطائرة</div>
+        <div class="label">تكلفة توقف الطائرة · توضيحي</div>
       </div>
       <div class="cs-legend small"><i></i> نافذة القرار اليدوي الحالية</div>
     </div>
@@ -49,7 +49,7 @@ export default {
       <h2 class="t-l" data-in="0" style="--d:100">الانتظار… مكلف.</h2>
       <ul class="cs-stats">
         <li data-in="0" style="--d:300"><span class="v num ltr">24–48</span><span class="u">ساعة</span><span class="k">زمن القرار اليدوي الحالي</span></li>
-        <li data-in="0" style="--d:450"><span class="v num ltr">$10,000</span><span class="u">/ ساعة</span><span class="k">تكلفة توقف الطائرة (AOG)</span></li>
+        <li data-in="0" style="--d:450"><span class="v num ltr">$10,000</span><span class="u">/ ساعة</span><span class="k">تكلفة توقف الطائرة (AOG) · <em class="c-amber">افتراض توضيحي</em></span></li>
         <li data-in="2" class="cs-68">
           <svg viewBox="0 0 120 120" class="cs-donut"><circle cx="60" cy="60" r="50"/><circle class="p" cx="60" cy="60" r="50" pathLength="100"/></svg>
           <span class="v num ltr">68%</span><span class="k">من قادة MRO: الذكاء الاصطناعي أولوية 2026</span>

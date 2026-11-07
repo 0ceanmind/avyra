@@ -21,7 +21,9 @@ export default {
 • مصمّم لسياق الخليج/عُمان: ✓ — ✗ (مصمّم لأمريكا/أوروبا)
 • توصية موحّدة (تنبؤ + قطع + عقد + فريق): ✓ — ✗ (كل مجال منفصل)
 • منطق شفاف قابل للتفسير: ✓ — ✗ (غالباً صندوق أسود)
-• تكلفة وتعقيد التكامل: مناسب للأساطيل المتوسطة — تكامل صعب ومكلف.`,
+• تكلفة وتعقيد التكامل: مناسب للأساطيل المتوسطة — تكامل صعب ومكلف.
+أساس المقارنة: تقييم الفريق للمواد المنشورة عن أنظمة MRO العالمية الرائجة (AMOS من Swiss AviationSoftware، TRAX التي استحوذت عليها AAR في 2023 بـ 120 مليون $، IFS Maintenix، Ramco Aviation).
+مراجع السوق: Oliver Wyman (Global Fleet & MRO Market Forecast 2026–2036)، Global Market Insights (Aviation MRO Software)، AAR (TRAX Acquisition).`,
   html: () => `
     <div class="eyebrow" data-in="0">الميزة التنافسية</div>
     <h2 class="t-l" data-in="0" style="--d:100">لماذا نحن… <span class="grad">ولا أحد غيرنا؟</span></h2>
@@ -39,5 +41,6 @@ export default {
           <span class="av-g">${r.g === undefined ? '' : r.a ? no : ''}${r.g ? `<em>${r.g}</em>` : ''}</span>
         </div>`).join('')}
     </div>
+    <p class="av-src small" data-in="0" style="--d:1300">${icon('info', 20)} قارنّا مع: <span class="ltr">AMOS · TRAX · IFS Maintenix · Ramco</span> — من موادها المنشورة</p>
   `,
 };

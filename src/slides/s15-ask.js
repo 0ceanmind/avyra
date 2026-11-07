@@ -14,8 +14,10 @@ export default {
   title: 'الطلب المالي',
   chapter: 'الاستثمار',
   steps: 1,
-  notes: `الطلب المالي — كم نطلب، ولأي مدة، وأين تذهب الأموال؟
-• كم؟ جولة تمويل مبدئية.  • مقابل ماذا؟ نسبة ملكية.  • لأي مدة؟ شهور تمويل التشغيل (في المسودة «[12-18]» بين أقواس كقيمة مؤقتة — تُعرض بعد تأكيدها في config.js).
+  notes: `الطلب المالي — لقطة الاستثمار:
+• التمويل المطلوب: 75,000 ر.ع.  • الحصة الاستثمارية: 20%.
+• قيمة الشركة قبل الاستثمار: 300,000 ر.ع.  • بعد الاستثمار: 375,000 ر.ع. (300,000 + 75,000؛ و75,000 ÷ 375,000 = 20%).
+• مرجع التقييم: متوسط مضاعفات شركات SaaS (Aventis Advisors: الوسيط ≈ 4.5× الإيرادات عبر 543 صفقة منذ 2015) — التقييم الحالي تقدير للمرحلة المبكرة وليس مبنياً على إيرادات محققة.  • لأي مدة؟ شهور تمويل التشغيل (في المسودة «[12-18]» بين أقواس كقيمة مؤقتة — تُعرض بعد تأكيدها في config.js).
 توزيع استخدام الأموال (مقترح): 40% تطوير المنتج والتكامل التقني (RAG, AMOS/ERP) · 30% المبيعات والشراكات (عملاء تجريبيون، مؤتمرات) · 20% الفريق والتوظيف · 10% التشغيل والاستضافة السحابية.
 (المبلغ ونسبة الملكية والمدة تُضاف في src/config.js — عند إضافتها تظهر المبالغ لكل بند تلقائياً.)`,
   html: ({ config }) => {
@@ -28,20 +30,22 @@ export default {
       return `<circle class="ak-seg" data-i="${i}" cx="280" cy="280" r="${R}" stroke="${f.c}" stroke-dasharray="${len.toFixed(1)} ${CIRC.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" style="--len:${len.toFixed(1)};--d:${400 + i * 180}"/>`;
     }).join('');
     const tiles = [
-      a.amount && { k: 'كم؟', v: a.amount, s: 'جولة تمويل مبدئية' },
-      a.equity && { k: 'مقابل ماذا؟', v: a.equity, s: 'نسبة ملكية' },
+      a.amount && { k: 'التمويل المطلوب', v: a.amount, hl: true },
+      a.equity && { k: 'الحصة الاستثمارية', v: a.equity },
+      a.preMoney && { k: 'القيمة قبل الاستثمار', v: a.preMoney },
+      a.postMoney && { k: 'القيمة بعد الاستثمار', v: a.postMoney },
       a.runway && { k: 'لأي مدة؟', v: `${a.runway}`, s: 'شهراً تمويل تشغيل' },
     ].filter(Boolean);
     return `
     <div class="eyebrow" data-in="0">الاستثمار</div>
     <h2 class="t-l" data-in="0" style="--d:100">الطلب المالي</h2>
-    <p class="lead" data-in="0" style="--d:200">${tiles.length ? 'كم نطلب، ولأي مدة، وأين تذهب الأموال؟' : 'أين تذهب الأموال؟'}</p>
+    <p class="lead" data-in="0" style="--d:200">${tiles.length ? 'كم نطلب، ومقابل ماذا، وأين تذهب الأموال؟' : 'أين تذهب الأموال؟'}</p>
     <div class="ak-donut" data-in="0" style="--d:250">
       <svg viewBox="0 0 560 560" aria-hidden="true"><circle class="ak-trk" cx="280" cy="280" r="${R}"/>${segs}</svg>
       <div class="ak-center"><b class="num ltr" data-k="cp">100%</b><span data-k="ct">استخدام الأموال</span><em class="num ltr" data-k="ca"></em></div>
     </div>
     <div class="ak-col">
-      <div class="ak-tiles">${tiles.map((t, i) => `<div class="ak-tile glass" data-in="0" style="--d:${300 + i * 120}"><span class="label">${t.k}</span><b class="num ltr">${t.v}</b><span class="small">${t.s}</span></div>`).join('')}</div>
+      <div class="ak-tiles">${tiles.map((t, i) => `<div class="ak-tile glass${t.hl ? ' hl' : ''}" data-in="0" style="--d:${300 + i * 120}"><span class="label">${t.k}</span><b class="num ltr">${t.v}</b>${t.s ? `<span class="small">${t.s}</span>` : ''}</div>`).join('')}</div>
       <ul class="ak-legend">${FUNDS.map((f, i) => `
         <li data-i="${i}" data-in="0" style="--d:${500 + i * 120}">
           <i style="background:${f.c}"></i><b class="num ltr">${f.p}%</b>
